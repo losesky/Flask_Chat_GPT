@@ -1,6 +1,5 @@
 <!DOCTYPE html>
 <html>
-
 <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no" class="jsx-74ac21e17e774b8">
@@ -40,9 +39,8 @@
 		border: none;
 		border-radius: 10px 10px 10px 10px;
 		background-color: #f2f2f2;
-		font-family: 新宋体, verdana, sans-serif;   /*字体*/
-		font-size: 14px;   /*字体大小*/
-		letter-spacing: 1.2pt;   /*字体间距*/
+		font-family: 宋体, verdana, sans-serif;   /*字体*/
+		font-size: 18px;   /*字体大小*/
 		word-spacing: -8.5pt;   /*字体空格间距*/
 		line-height: 1.6;   /*行间距*/
 	}
@@ -52,15 +50,13 @@
             margin: 10px;
             box-sizing: border-box;
             border-radius: 5px 5px 5px 5px;
-            background-color: #4CAF50;
+            background-color: #4ce600;
             color: #000000;
             text-align: left;
             float: right;
             display: block;
-			font-family: 新宋体, verdana, sans-serif;   /*字体*/
-			font-size: 14px;   /*字体大小*/
-			letter-spacing: 1.2pt;   /*字体间距*/
-			word-spacing: -8.5pt;   /*字体空格间距*/
+			font-family: 宋体, verdana, sans-serif;   /*字体*/
+			font-size: 18px;   /*字体大小*/
 			line-height: 1.6;   /*行间距*/
 	}
 	.bubble-received {
@@ -74,19 +70,17 @@
 		text-align: left;
 		float: left;
 		display: block;
-		font-family: 新宋体, verdana, sans-serif;   /*字体*/
-		font-size: 14px;   /*字体大小*/
-		letter-spacing: 1.2pt;   /*字体间距*/
-		word-spacing: -8.5pt;   /*字体空格间距*/
+		font-family: 宋体, verdana, sans-serif;   /*字体*/
+		font-size: 18px;   /*字体大小*/
 		line-height: 1.6;   /*行间距*/
 	}
     </style>
 </head>
 <body>
     <div class="chat-container">
-        <div class="chat-header">
+        <!--<div class="chat-header">
             <p align="center">Chat with OpenAI GPT-3</p>
-        </div>
+        </div>-->
         <div class="chat-body" id="chat_content">
         </div>
         <div class="chat-bottom">
@@ -111,7 +105,6 @@
                 chat_content.scrollTop = chat_content.scrollHeight;
             }
         });
-
     }
 </script>
 </body>
