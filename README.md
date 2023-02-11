@@ -87,12 +87,13 @@ User=root
 Group=www-data
 WorkingDirectory=/var/www/Flask_Chat_GPT/
 Environment=PATH=/var/www/Flask_Chat_GPT/myenv/bin
-ExecStart=/var/www/Flask_Chat_GPT/myenv/bin/gunicorn -w 4 -b 127.0.0.1:5001 --access-logfile access.log --error-logfile error.log chatbot:app
+ExecStart=/var/www/Flask_Chat_GPT/myenv/bin/gunicorn --timeout 60 -w 4 -b 127.0.0.1:5001 --access-logfile access.log --error-logfile error.log chatbot:app
 Restart=always
 
 [Install]
 WantedBy=multi-user.target
 ```
+这里之所以设置-timeout 60 是因为Gunicorn默认超时是30秒，nginx默认超时是60秒，需要统一，不然会出现501错误\
 6.4.3.保存文件并退出编辑器\
 6.4.4.加载服务配置
 ```

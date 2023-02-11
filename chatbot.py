@@ -2,6 +2,7 @@ from flask import Flask, render_template, request
 import openai
 import configparser
 
+
 app = Flask(__name__)
 app.config['SESSION_COOKIE_TIMEOUT'] = 60
 
@@ -39,13 +40,13 @@ def get_response():
             frequency_penalty=0,
             presence_penalty=0
         )
-
         response = response['choices'][0]['text']
         prompt += response
-
+        print(response)
         return response
     except Exception as e:
-        return "ChatGPT开小差了: " + str(e)
+        print(e)
+        return "ChatGPT开小差了，需要联系管理员: " + str(e)
 
 
 if __name__ == '__main__':
