@@ -1,7 +1,7 @@
 # OpenAI ChatGTP 聊天机器人 (GPT-3)
-在这个示例中，使用OpenAI的GPT-3实现类似ChatGPT的对话功能
+在这个示例中，使用flask-gunicorn-nginx架构部署一个OpenAI的GPT-3类似的ChatGPT的会话小程序
 
-1.使用以下命令在Ubuntu服务器上安装所需的依赖：
+1.使用以下命令在Ubuntu服务器上安装所需的依赖
 ```
 $ sudo apt-get update
 $ sudo apt-get install python3 python3-pip python3-virtualenv
