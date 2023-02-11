@@ -4,9 +4,10 @@ import configparser
 
 app = Flask(__name__)
 
-config = configparser.ConfigParser()
-config.read('config.cfg')
-openai.api_key = config.get('OpenAI', 'API_KEY')
+# config = configparser.ConfigParser()
+# config.read('config.cfg')
+openai.api_key = "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"
+# openai.api_key = config.get('OpenAI', 'API_KEY')
 prompt = ""
 
 
