@@ -25,23 +25,26 @@ def index():
 @app.route('/get_response', methods=['POST'])
 def get_response():
     global prompt
-    user_input = request.form['user_input']
-    prompt += user_input + "\n"
+    try:
+        user_input = request.form['user_input']
+        prompt += user_input + "\n"
 
-    response = openai.Completion.create(
-        engine="text-davinci-003",
-        prompt=prompt,
-        max_tokens=2048,
-        temperature=0.5,
-        top_p=1,
-        frequency_penalty=0,
-        presence_penalty=0
-    )
+        response = openai.Completion.create(
+            engine="text-davinci-003",
+            prompt=prompt,
+            max_tokens=2048,
+            temperature=0.5,
+            top_p=1,
+            frequency_penalty=0,
+            presence_penalty=0
+        )
 
-    response = response['choices'][0]['text']
-    prompt += response
+        response = response['choices'][0]['text']
+        prompt += response
 
-    return response
+        return response
+    except Exception as e:
+        return "ChatGPT开小差了: " + str(e)
 
 
 if __name__ == '__main__':
