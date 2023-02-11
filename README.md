@@ -93,7 +93,7 @@ Restart=always
 [Install]
 WantedBy=multi-user.target
 ```
-这里之所以设置-timeout 60 是因为Gunicorn默认超时是30秒，nginx默认超时是60秒，需要统一，不然会出现501错误\
+这里之所以设置-timeout 60 是因为Gunicorn默认超时是30秒，nginx默认超时是60秒，需要统一，不然会出现501错误
 
 6.4.3.保存文件并退出编辑器\
 6.4.4.加载服务配置
