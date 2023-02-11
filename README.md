@@ -93,7 +93,7 @@ Restart=always
 [Install]
 WantedBy=multi-user.target
 ```
-6.4.3.保存文件并退出编辑器
+6.4.3.保存文件并退出编辑器\
 6.4.4.加载服务配置
 ```
 $ sudo systemctl daemon-reload
@@ -121,6 +121,10 @@ http://sg-ov.losesky.net
 你需要在openai官网申请api-keys\
 https://platform.openai.com/account/api-keys \
 申请后，把api-key替换config.cfg文件中的”sk-********“即可。
+
+参考：\
+https://www.bmabk.com/index.php/post/31016.html
+https://www.cnblogs.com/Ray-liang/p/4837850.html
 
 
 
