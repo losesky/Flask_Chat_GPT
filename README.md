@@ -80,3 +80,6 @@ http://sg-ov.losesky.net
 
 参考：\
 https://platform.openai.com/account/api-keys
+
+
+gunicorn -w 4 -b 127.0.0.1:5001 --access-logfile access.log --error-logfile error.log chatbot:app
