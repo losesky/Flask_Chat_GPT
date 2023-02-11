@@ -27,7 +27,8 @@ pip install -r requirements.txt
 export FLASK_APP=chatbot.py
 flask run --host=0.0.0.0
 ```
-6.如果想部署生产环境\
+6.如果想部署生产环境
+
 6.1.先创建 WSGI 文件
 ```
 sudo nano /var/www/Flask_Chat_GPT/chatbot.wsgi
@@ -64,6 +65,13 @@ sudo nano /etc/apache2/sites-available/Flask_Chat_GPT.conf
 ```
 sudo a2ensite Flask_Chat_GPT
 sudo systemctl restart apache2
+
+#查看服务器状态
+sudo systemctl status apache2
+#查看服务器后台输出
+journalctl -u apache2.service -f
+#查看服务器错误日志
+sudo tail /var/log/apache2/error.log
 ```
 这样，这个Flask 项目应该已经可以在生产环境中使用了。
 
