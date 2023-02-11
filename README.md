@@ -71,7 +71,7 @@ server {
 ```
 $ sudo service nginx restart
 ```
-6.4.将 Gunicorn作为服务运行，我们在此将采用Systemd配置Flask程序作为服务程序在Linux后台运行\
+6.4.将 Gunicorn作为服务运行，我们在此将采用Systemd配置Flask程序作为服务在后台运行\
 6.4.1.创建 Systemd 服务文件
 ```
 $ sudo nano /etc/systemd/system/chatbot.service
