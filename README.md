@@ -123,7 +123,7 @@ https://platform.openai.com/account/api-keys \
 申请后，把api-key替换config.cfg文件中的”sk-********“即可。
 
 参考：\
-https://www.bmabk.com/index.php/post/31016.html
+https://www.bmabk.com/index.php/post/31016.html \
 https://www.cnblogs.com/Ray-liang/p/4837850.html
 
 
