@@ -3,6 +3,7 @@ import openai
 import configparser
 
 app = Flask(__name__)
+app.config['SESSION_COOKIE_TIMEOUT'] = 30
 
 # 测试环境可以用，但生产环境这里异常，待排查
 config = configparser.ConfigParser()
