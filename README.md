@@ -11,7 +11,7 @@ sudo apt-get install apache2 libapache2-mod-wsgi-py3 python3-pip
 ```
 cd /var/www/
 sudo git clone https://github.com/losesky/Flask_Chat_GPT.git
-cd /Flask_Chat_GPT
+cd Flask_Chat_GPT
 ```
 3.在Ubuntu服务器上创建虚拟环境：
 ```
