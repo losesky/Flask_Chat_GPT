@@ -46,6 +46,7 @@
 	.bubble-sent {
             width: 100%
             padding: auto;
+            clear: both;
             margin: 10px;
             box-sizing: border-box;
             border-radius: 5px 5px 5px 5px;
@@ -61,6 +62,7 @@
 	.bubble-received {
 		width: 100%
 		padding: auto;
+		clear: both;
 		margin: 10px;
 		box-sizing: border-box;
 		border-radius: 5px 5px 5px 5px;
@@ -100,6 +102,42 @@
             url: '/get_response',
             data: {user_input: user_input},
             success: function (response) {
+                // 将文本开头的换行符删除掉
+                if (response.startsWith('\n')) {
+                    response = response.replace(/^\n/, '');
+                }
+
+                // 将文本中的换行符替换为<br>元素
+                response = response.replace(/(\r\n|\n|\r)/gm, "<br />");
+
+                // 使用两个变量（例如 "openTagCount" 和 "closeTagCount"）记录当前找到的标签数，然后通过检查这些变量来决定是否替换为<pre><code>或</code></pre>
+                let openTagCount = 0;
+                let closeTagCount = 0;
+                // 计算出 ''' 出现的次数
+                for (let i = 0; i < response.length; i++) {
+                    if (response.substring(i, i + 3) === "'''") {
+                        if (openTagCount === closeTagCount) {
+                            openTagCount++;
+                        } else {
+                            closeTagCount++;
+                        }
+                    }
+                }
+                // 替换 ''' 为 <pre><code> 或 </code></pre>
+                let result = "";
+                for (let i = 0; i < response.length; i++) {
+                    if (response.substring(i, i + 3) === "'''") {
+                        if (openTagCount > closeTagCount) {
+                            result += "<pre><code>";
+                            closeTagCount++;
+                        } else {
+                            result += "</code></pre>";
+                        }
+                        i += 2;
+                    } else {
+                        result += response[i];
+                    }
+                }
                 $('#chat_content').append('<div class="bubble-received">' + response + '</div>');
                 chat_content.scrollTop = chat_content.scrollHeight;
             }
