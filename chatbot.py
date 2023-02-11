@@ -3,11 +3,12 @@ import openai
 import configparser
 
 app = Flask(__name__)
-
+# 测试环境可以用，但生产环境这里异常，待排查
 # config = configparser.ConfigParser()
 # config.read('config.cfg')
-openai.api_key = "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"
 # openai.api_key = config.get('OpenAI', 'API_KEY')
+# 从openai接口站点获取api_key
+openai.api_key = "sk-*****************"
 prompt = ""
 
 
