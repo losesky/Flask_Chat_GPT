@@ -9,8 +9,6 @@ config = configparser.ConfigParser()
 config.read('config.cfg')
 openai.api_key = config.get('OpenAI', 'API_KEY')
 
-# 从openai接口站点获取api_key
-# openai.api_key = "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"
 prompt = ""
 
 
