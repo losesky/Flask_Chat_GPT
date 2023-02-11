@@ -10,19 +10,20 @@ $ sudo apt-get install python3 python3-pip python3-virtualenv
 ```
 $ sudo apt-get install nginx
 ```
-2.克隆项目到服务器/var/www ：使用 git 命令从 Github 中克隆你的 Flask 项目到服务器对应路径
+2.克隆项目到服务器/var/www \
+使用 git 命令从 Github 中克隆你的 Flask 项目到服务器对应路径
 ```
 $ cd /var/www/
 $ sudo git clone https://github.com/losesky/Flask_Chat_GPT.git
 $ sudo chmod 777 /var/www/Flask_Chat_GPT
 $ cd Flask_Chat_GPT
 ```
-3.在Ubuntu服务器上创建虚拟环境：
+3.在Ubuntu服务器上创建虚拟环境
 ```
 $ sudo python3 -m venv myenv
 $ sudo source myenv/bin/activate
 ```
-4.在虚拟环境中使用以下命令安装所需的python项目依赖包：
+4.在虚拟环境中使用以下命令安装所需的python项目依赖包
 ```
 (venv) $ sudo pip install -r requirements.txt
 ```
@@ -75,7 +76,7 @@ $ sudo service nginx restart
 ```
 $ sudo nano /etc/systemd/system/chatbot.service
 ```
-6.4.2.将以下内容添加到文件中：
+6.4.2.将以下内容添加到文件中
 ```
 [Unit]
 Description=The chatbot service
