@@ -1,18 +1,19 @@
 <!DOCTYPE html>
 <html>
 <head>
-    <meta charset="utf-8">
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no" class="jsx-74ac21e17e774b8">
     <title>Chat with OpenAI GPT-3</title>
     <script src="https://code.jquery.com/jquery-3.5.1.min.js"></script>
-
-    <style>
+</head>
+<style>
 	body {
 		margin: 0;
 		padding: 0;
 		border: 0;
 		background-color: #EFECE6;
 		height: 100%;
+		overflow: hidden;
 	}
 	.chat-container {
 		display: flex;
@@ -33,15 +34,38 @@
 		padding: 10px;
 		margin-top: 10px;
 	}
-	.user-input {
-		width: 100%;
-		height: 32px;
+	#input-fit{
 		border: none;
 		border-radius: 10px 10px 10px 10px;
 		background-color: #f2f2f2;
 		font-family: 宋体, verdana, sans-serif;   /*字体*/
-		font-size: 18px;   /*字体大小*/
-		line-height: 1.6;   /*行间距*/
+		font-size: 17px;   /*字体大小*/
+		line-height: 1.7;   /*行间距*/
+		resize: none;
+		overflow: hidden;
+		word-wrap: break-word;
+		white-space: pre-wrap;
+	}
+	.hide{
+		visibility: hidden;
+		position: absolute;
+		overflow: hidden;
+		z-index: -100;
+	}
+	#user-input{
+		width: 100%;
+		height: 30px;
+		border: none;
+		border-radius: 10px 10px 10px 10px;
+		background-color: #f2f2f2;
+		font-family: 宋体, verdana, sans-serif;   /*字体*/
+		font-size: 17px;   /*字体大小*/
+		line-height: 1.7;   /*行间距*/
+		min-height: 30px;
+		max-height: 82px;
+		resize: none;
+		overflow: hidden;
+		word-wrap: break-word;
 	}
 	.bubble-sent {
             width: 100%
@@ -75,56 +99,87 @@
 		font-size: 18px;   /*字体大小*/
 		line-height: 1.6;   /*行间距*/
 	}
-    </style>
-</head>
+</style>
 <body>
-    <div class="chat-container">
-        <!--<div class="chat-header">
-            <p align="center">Chat with OpenAI GPT-3</p>
-        </div>-->
-        <div class="chat-body" id="chat_content">
-        </div>
-        <div class="chat-bottom">
-            <form onsubmit="submitForm(); return false;">
-                <input class="user-input" type="text" name="message" id="user_input">
-            </form>
-        </div>
-    </div>
-<script type="text/javascript">
-    function submitForm() {
-        var chat_content = document.getElementById('chat_content');
-        var user_input = $('#user_input').val();
-        $('#chat_content').append('<div class="bubble-sent">' + user_input + '</div>');
-        $('#user_input').val('');
-        chat_content.scrollTop = chat_content.scrollHeight;
-        $.ajax({
-            type: 'POST',
-            url: '/get_response',
-            data: {user_input: user_input},
-            success: function (response) {
-                console.log(response.result);
-                // 将文本开头的换行符删除掉
-                if (response.startsWith('\n')) {
-                    response = response.replace(/^\n/, '');
-                }
+<div class="chat-container">
+	<!--<div class="chat-header">
+		<p align="center">Chat with OpenAI GPT-3</p>
+	</div>-->
+	<div class="chat-body" id="chat_content">
+	</div>
+	<div class="chat-bottom">
+		<form id="input-Form">
+			<pre id="input-fit" class="hide"></pre>
+			<textarea id="user-input"></textarea>
+		</form>
+	</div>
+</div>
+<script>
+	$('textarea').on('keydown', function(event) {
+		if (event.keyCode == 13)
+			if (!event.shiftKey) $('#input-Form').submit();
+	});
 
-                // 正则表达式将匹配以 "'''" 开头和以 "'''" 结尾的文本，然后将其替换为 <pre><code> 和 </code></pre>。
-                // 使用 "gm" 修饰符以匹配每一个 "'''"，而不是仅匹配第一个。
-                response = response.replace(/'''(.+?)'''/gm, '<pre><code>$1</code></pre>');
 
-                // 将文本中的换行符替换为<br>元素
-                response = response.replace(/(\r\n|\n|\r)/gm, "<br />");
+	$('#input-Form').on('submit', function(event) {
+		event.preventDefault();
+		var chat_content = document.getElementById('chat_content');
+		var user_input = $('#user-input').val();
+		user_input = formatResponse(user_input);
+		$('#chat_content').append('<div class="bubble-sent">' + user_input + '</div>');
+		$('#user-input').replaceWith($('#user-input').clone(true));
+        $('#user-input').val('');
+		chat_content.scrollTop = chat_content.scrollHeight;
+		$.ajax({
+			type: 'POST',
+			url: '/get_response',
+			data: {user_input: user_input},
+			success: function (response) {
+				// 将返回文本格式化成HTML元素
+				var formattedResponse = formatResponse(response);
 
-                $('#chat_content').append('<div class="bubble-received">' + response + '</div>');
-                chat_content.scrollTop = chat_content.scrollHeight;
-            },
-            error: function (xhr, textStatus, errorThrown) {
-                console.log(errorThrown);
-                $('#chat_content').append('<div class="bubble-received">ChatGPT开小差了，请重试:' + errorThrown + '</div>');
-                chat_content.scrollTop = chat_content.scrollHeight;
-            }
-        });
-    }
+				$('#chat_content').append('<div class="bubble-received">' + formattedResponse + '</div>');
+				chat_content.scrollTop = chat_content.scrollHeight;
+			},
+			error: function (xhr, textStatus, errorThrown) {
+				console.log(errorThrown);
+				$('#chat_content').append('<div class="bubble-received">ChatGPT开小差了，请重试:' + errorThrown + '</div>');
+				chat_content.scrollTop = chat_content.scrollHeight;
+			}
+		});
+	});
+
+	function formatResponse(response) {
+		// 将文本开头的换行符删除掉
+		if (response.startsWith('\n')) {
+		response = response.replace(/^\n/, '');
+		}
+		// 正则表达式将匹配以 "'''" 开头和以 "'''" 结尾的文本，然后将其替换为 <pre><code> 和 </code></pre>。
+		// 使用 "gm" 修饰符以匹配每一个 "'''"，而不是仅匹配第一个。
+		response = response.replace(/'''(.+?)'''/gm, '<pre><code>$1</code></pre>');
+
+		// 将文本中的换行符替换为<br>元素
+		response = response.replace(/(\r\n|\n|\r)/gm, "<br />");
+
+		return response;
+	}
+
+    //高度自适应
+	document.onkeydown = function () {
+		var textarea = document.getElementById('user-input')
+		var pre = document.getElementById('input-fit');
+		var textarea = document.getElementById('user-input');
+		if (!textarea) {
+			return;
+		}
+		var pre = document.getElementById('input-fit');
+		if (!pre) {
+			return;
+		}
+		pre.innerHTML = textarea.value;
+		var realHeight = pre.offsetHeight;
+		textarea.style.height = realHeight + 'px';
+	}
 </script>
 </body>
 </html>

@@ -29,6 +29,7 @@ def get_response():
     global prompt
     try:
         user_input = request.form['user_input']
+        print("user_input:\n"+user_input)
         prompt += user_input + "\n"
 
         response = openai.Completion.create(
@@ -42,7 +43,7 @@ def get_response():
         )
         response = response['choices'][0]['text']
         prompt += response
-        print(response)
+        print("response:"+response)
         return response
     except Exception as e:
         print(e)
