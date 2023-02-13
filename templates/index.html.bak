@@ -1,0 +1,129 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no" class="jsx-74ac21e17e774b8">
+    <title>Chat with OpenAI GPT-3</title>
+    <script src="https://code.jquery.com/jquery-3.5.1.min.js"></script>
+
+    <style>
+	body {
+		margin: 0;
+		padding: 0;
+		border: 0;
+		background-color: #EFECE6;
+		height: 100%;
+	}
+	.chat-container {
+		display: flex;
+		flex-direction: column;
+		height: 100vh;
+		overflow: hidden;
+	}
+	.chat-header {
+		background-color: lightgray;
+		height: 50px;
+	}
+	.chat-body {
+		flex: 1;
+		overflow: auto;
+	}
+	.chat-bottom {
+		background-color: lightgray;
+		padding: 10px;
+		margin-top: 10px;
+	}
+	.user-input {
+		width: 100%;
+		height: 32px;
+		border: none;
+		border-radius: 10px 10px 10px 10px;
+		background-color: #f2f2f2;
+		font-family: 宋体, verdana, sans-serif;   /*字体*/
+		font-size: 18px;   /*字体大小*/
+		line-height: 1.6;   /*行间距*/
+	}
+	.bubble-sent {
+            width: 100%
+            padding: auto;
+            clear: both;
+            margin: 10px;
+            box-sizing: border-box;
+            border-radius: 5px 5px 5px 5px;
+            background-color: #4ce600;
+            color: #000000;
+            text-align: left;
+            float: right;
+            display: block;
+			font-family: 宋体, verdana, sans-serif;   /*字体*/
+			font-size: 18px;   /*字体大小*/
+			line-height: 1.6;   /*行间距*/
+	}
+	.bubble-received {
+		width: 100%
+		padding: auto;
+		clear: both;
+		margin: 10px;
+		box-sizing: border-box;
+		border-radius: 5px 5px 5px 5px;
+		background-color: #fff;
+		color: #000000;
+		text-align: left;
+		float: left;
+		display: block;
+		font-family: 宋体, verdana, sans-serif;   /*字体*/
+		font-size: 18px;   /*字体大小*/
+		line-height: 1.6;   /*行间距*/
+	}
+    </style>
+</head>
+<body>
+    <div class="chat-container">
+        <!--<div class="chat-header">
+            <p align="center">Chat with OpenAI GPT-3</p>
+        </div>-->
+        <div class="chat-body" id="chat_content">
+        </div>
+        <div class="chat-bottom">
+            <form onsubmit="submitForm(); return false;">
+                <input class="user-input" type="text" name="message" id="user_input">
+            </form>
+        </div>
+    </div>
+<script type="text/javascript">
+    function submitForm() {
+        var chat_content = document.getElementById('chat_content');
+        var user_input = $('#user_input').val();
+        $('#chat_content').append('<div class="bubble-sent">' + user_input + '</div>');
+        $('#user_input').val('');
+        chat_content.scrollTop = chat_content.scrollHeight;
+        $.ajax({
+            type: 'POST',
+            url: '/get_response',
+            data: {user_input: user_input},
+            success: function (response) {
+                // 将文本开头的换行符删除掉
+                if (response.startsWith('\n')) {
+                    response = response.replace(/^\n/, '');
+                }
+
+                // 正则表达式将匹配以 "'''" 开头和以 "'''" 结尾的文本，然后将其替换为 <pre><code> 和 </code></pre>。
+                // 使用 "gm" 修饰符以匹配每一个 "'''"，而不是仅匹配第一个。
+                response = response.replace(/'''(.+?)'''/gm, '<pre><code>$1</code></pre>');
+
+                // 将文本中的换行符替换为<br>元素
+                response = response.replace(/(\r\n|\n|\r)/gm, "<br />");
+
+                $('#chat_content').append('<div class="bubble-received">' + response + '</div>');
+                chat_content.scrollTop = chat_content.scrollHeight;
+            },
+            error: function (xhr, textStatus, errorThrown) {
+                console.log(errorThrown);
+                $('#chat_content').append('<div class="bubble-received">ChatGPT开小差了，请重试:' + errorThrown + '</div>');
+                chat_content.scrollTop = chat_content.scrollHeight;
+            }
+        });
+    }
+</script>
+</body>
+</html>

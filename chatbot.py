@@ -31,6 +31,11 @@ def get_response():
         user_input = request.form['user_input']
         print("user_input:\n"+user_input)
         prompt += user_input + "\n"
+        # chatGPT接收的上下文最大长度4097，如果提交的问题字串长度超过则报错
+        # 因此这里需要对长度做处理，把每次提交的问题根据长度追加到上下文中
+        input_len = len(user_input) + 2
+        if len(prompt) > 2048:
+            prompt = prompt[-input_len:] + user_input + "\n"
 
         #  engine：生成引擎的名称，默认为 text-davinci-002。
         #  prompt：生成请求的提示文本。
@@ -51,6 +56,7 @@ def get_response():
         )
         response = response['choices'][0]['text']
         prompt += response
+
         print("response:"+response)
         return response
     except Exception as e:
