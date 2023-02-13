@@ -1,6 +1,6 @@
 # OpenAI ChatGTP 聊天机器人 (GPT-3)
 自2022年底OpenAI公司发布ChatGPT以来仅两个月，月活用户轻松突破1亿，成为史上用户数破亿最快的软件之一。​
-AICG概念火热引得谷歌、微软、百度等公司争相布局，同样也掀起了各个行业对这项热门领域的追捧和研究。
+AIGC概念火热引得谷歌、微软、百度等公司争相布局，同样也掀起了各个行业对这项热门领域的追捧和研究。
 
 在这个示例中，使用Flask-Gunicorn-nginx架构部署一个基于OpenAI的类似GPT-3的聊天机器人。
 
@@ -51,7 +51,7 @@ $ sudo curl 127.0.0.1:5001
 ```
 如果输出正常，则Gunicorn部署完成
 
-6.3.进行Nginx 的配置，建议先备份一下 default 文件
+6.3.进行Nginx的配置，建议先备份一下 default 文件
 ```
 $ sudo cp /etc/nginx/sites-available/default /etc/nginx/sites-available/default.bak
 $ sudo nano /etc/nginx/sites-available/default
@@ -96,7 +96,7 @@ Restart=always
 [Install]
 WantedBy=multi-user.target
 ```
-这里之所以设置-timeout 60 是因为Gunicorn默认超时是30秒，nginx默认超时是60秒，需要统一，不然会出现501错误
+这里之所以设置-timeout 60是因为Gunicorn默认超时是30秒，nginx默认超时是60秒，需要统一，不然会出现501错误
 
 6.4.3.保存文件并退出编辑器\
 6.4.4.加载服务配置
@@ -107,7 +107,7 @@ $ sudo systemctl daemon-reload
 ```
 $ sudo systemctl start chatbot
 ```
-你可以通过一下命令管理服务
+你可以通过以下命令管理服务
 ```
 $ sudo systemctl status chatbot
 $ sudo systemctl restart chatbot
