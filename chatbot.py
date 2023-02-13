@@ -32,11 +32,19 @@ def get_response():
         print("user_input:\n"+user_input)
         prompt += user_input + "\n"
 
+        #  engine：生成引擎的名称，默认为 text-davinci-002。
+        #  prompt：生成请求的提示文本。
+        #  temperature：生成结果的随机性。取值范围为 0.0 到 1.0，默认为 0.5。
+        #  max_tokens：生成结果的最大令牌数。
+        #  top_p：取生成概率最高的令牌。默认为 1.0，即不限制生成概率。
+        #  frequency_penalty：频率惩罚，用于降低生成频繁出现的词语。
+        #  presence_penalty：存在惩罚，用于降低生成词语存在概率。
+        #  best_of：生成最优结果的数量，默认为 1。
         response = openai.Completion.create(
             engine="text-davinci-003",
             prompt=prompt,
             max_tokens=2048,
-            temperature=0.5,
+            temperature=0.3,
             top_p=1,
             frequency_penalty=0,
             presence_penalty=0
