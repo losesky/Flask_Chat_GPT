@@ -1,5 +1,7 @@
 # OpenAI ChatGTP 聊天机器人 (GPT-3)
-在这个示例中，使用flask-gunicorn-nginx架构部署一个OpenAI的GPT-3类似的ChatGPT的会话小程序
+自2022年底OpenAI公司发布ChatGPT以来仅两个月，，月活用户轻松突破1亿，成为史上用户数破亿最快的软件之一。\
+AICG概念火热引得谷歌、微软、百度等公司争相布局，同样也掀起了相关概念股热潮。\
+在这个示例中，使用flask-gunicorn-nginx架构部署一个OpenAI的GPT-3类似的ChatGPT的会话小程序\
 
 1.使用以下命令在Ubuntu服务器上安装所需的依赖
 ```
