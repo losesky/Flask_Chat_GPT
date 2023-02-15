@@ -119,9 +119,6 @@ $ sudo tail -f /var/www/Flask_Chat_GPT/error.log
 至此，基于Flask-gunicorn-nginx的chatGPT项目就部署完成，\
 在云平台防火墙设置中开放:80 :5000 ：5001端口即可在外网访问了。
 
-演示: \
-http://sg-ov.losesky.net
-
 备注：\
 你需要在openai官网申请api-keys\
 https://platform.openai.com/account/api-keys \
