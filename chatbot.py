@@ -1,9 +1,12 @@
+import logging
+
 from flask import Flask, render_template, request
 import openai
 import configparser
 
 
-app = Flask(__name__)
+app = Flask(__name__, static_folder='static')
+# logging.basicConfig(filename='/var/log/chatbot.log', level=logging.INFO)
 app.config['SESSION_COOKIE_TIMEOUT'] = 60
 
 # 测试环境可以用，但生产环境这里异常，待排查
@@ -29,7 +32,7 @@ def get_response():
     global prompt
     try:
         user_input = request.form['user_input']
-        print("user_input:\n"+user_input)
+        logging.info("user_input:\n"+user_input)
         prompt += user_input + "\n"
         # chatGPT接收的上下文最大长度4097，如果提交的问题字串长度超过则报错
         # 因此这里需要对长度做处理，把每次提交的问题根据长度追加到上下文中
@@ -55,14 +58,14 @@ def get_response():
             presence_penalty=0
         )
         response = response['choices'][0]['text']
+        # 把问题和答案加入上下文中，便于AI根据上下文回答问题
         prompt += response
-
-        print("response:"+response)
+        logging.info("response:"+response)
         return response
     except Exception as e:
-        print(e)
-        return "ChatGPT开小差了，需要联系管理员: " + str(e)
+        logging.error(e)
+        return "我开小差了，请再说一次"
 
 
 if __name__ == '__main__':
-    app.run()
+    app.run(debug=False)

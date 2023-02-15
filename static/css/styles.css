@@ -1,0 +1,186 @@
+    body {
+		margin: 0;
+		padding: 0;
+		border: 0;
+		background-color: #EFECE6;
+		height: 100%;
+		overflow: hidden;
+	}
+	.chat-container {
+		display: flex;
+		flex-direction: column;
+		height: 100vh;
+		overflow: hidden;
+	}
+	.chat-header {
+		background-color: lightgray;
+		height: 50px;
+	}
+	.chat-body {
+		flex: 1;
+		overflow: auto;
+	}
+	.chat-bottom {
+		background-color: lightgray;
+		padding: 10px 0 10px 0;
+		display: flex;
+	}
+	#user-input{
+		width: 100%;
+		border: 0;
+		border-radius: 5px 5px 5px 5px;
+		background-color: #f2f2f2;
+		font-family: 宋体, verdana, sans-serif;   /*字体*/
+		font-size: 18px;
+		line-height: 1.4;
+		height: 25px;
+		max-height: 96px;
+		resize: none;
+		overflow: auto;
+		word-wrap: break-word;
+		white-space: pre-wrap;
+	}
+	.bubble-sent {
+	  width: auto;
+	  padding: 8px 16px;
+	  clear: both;
+	  margin: 10px 20px 10px auto;
+	  box-sizing: border-box;
+	  border-radius: 18px;
+	  background-color: #4ce600;
+	  color: #000000;
+	  text-align: left;
+	  float: right;
+	  display: inline-block;
+	  font-family: 宋体, verdana, sans-serif;
+	  font-size: 18px;
+	  line-height: 1.4;
+	  position: relative;
+	  max-width: 80%;
+	  word-wrap: break-word;
+	}
+	.bubble-sent:before {
+	  content: "";
+	  position: absolute;
+	  top: 9px;
+	  left: 100%;
+	  width: 0;
+	  height: 0;
+	  border: 10px solid transparent;
+	  border-right-color: #4ce600;
+	  border-left: 0;
+	  margin-top: -10px;
+	  margin-left: -10px;
+	  cursor: pointer; /* 添加鼠标指针 */
+	}
+	.bubble-received {
+	  width: auto;
+	  padding: 8px 16px;
+	  clear: both;
+	  margin: 10px 0 10px 20px;
+	  box-sizing: border-box;
+	  border-radius: 18px;
+	  background-color: #ffffff;
+	  color: #000000;
+	  text-align: left;
+	  float: left;
+	  display: inline-block;
+	  font-family: 宋体, verdana, sans-serif;
+	  font-size: 18px;
+	  line-height: 1.4;
+	  position: relative;
+	  max-width: 80%;
+	  word-wrap: break-word;
+	}
+
+	.bubble-received:before {
+	  content: "";
+	  position: absolute;
+	  top: 9px;
+	  right: 100%;
+	  width: 0;
+	  height: 0;
+	  border: 10px solid transparent;
+	  border-left-color: #ffffff;
+	  border-right: 0;
+	  margin-top: -10px;
+	  margin-right: -10px;
+	  cursor: pointer; /* 添加鼠标指针 */
+	}
+	.send-btn {
+		width: 70px;
+		height: 100%;
+		border: none;
+		border-radius: 10px 10px 10px 10px;
+		background-color: #4ba71e;
+		color: #fff;
+		font-family: 宋体, verdana, sans-serif;   /*字体*/
+		font-size: 18px;   /*字体大小*/
+		min-height: 29px;
+		max-height: 96px;
+		text-align: center;
+		align-items: center;
+		justify-content: center;
+		display: flex;
+		cursor: pointer;
+	}
+	.sel_icon{
+		display: flex;
+		padding: 0 0 0 10px;
+		align-items: center;
+		justify-content: center;
+	}
+	.input-area{
+		display: flex;
+		padding: 0 10px 0 10px;
+		flex: 100%;
+		align-items: center;
+		justify-content: center;
+	}
+	.btn-area{
+		display: flex;
+		padding: 0 10px 0 0;
+		flex: 10%;
+		align-items: center;
+		justify-content: center;
+	}
+	.round_btn {
+		align-items: center;
+		justify-content: center;
+		width: 30px;
+		height: 30px;
+		border-radius: 50%;
+		background-color: inherit;
+		border: 1px solid black;
+		display: flex;
+		position: relative;
+		cursor: pointer;
+	}
+	.round_btn::before {
+		content: "";
+		position: absolute;
+		top: 12px;
+		left: 12px;
+		right: 12px;
+		bottom: 12px;
+		border-top: 1px solid black;
+		border-bottom: 1px solid black;
+	}
+	/* 当鼠标移动到bubble-sent或bubble-received的div上时，背景色和文字颜色会发生变化，同时也会高亮显示该div的内容
+	.bubble-sent:hover, .bubble-received:hover {
+	  background-color: #ffc107;
+	  color: #ffffff;
+	}
+
+	.bubble-sent:hover p, .bubble-received:hover p {
+	  background-color: #ffc107;
+	  color: #ffffff;
+	}
+	.bubble-sent:hover:before {
+	  border-right-color: #ffc107;
+	}
+
+	.bubble-received:hover:before {
+	  border-left-color: #ffc107;
+	}
+	*/
