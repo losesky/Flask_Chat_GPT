@@ -5,7 +5,7 @@ import openai
 import configparser
 
 app = Flask(__name__, static_folder='static')
-# logging.basicConfig(filename='/var/log/chatbot.log', level=logging.INFO)
+logging.basicConfig(filename='/var/log/chatbot.log', level=logging.INFO)
 app.config['SESSION_COOKIE_TIMEOUT'] = 60
 
 # 测试环境可以用，但生产环境这里异常，待排查
@@ -36,26 +36,28 @@ def get_response():
         logging.info("user_input:" + user_input)
         if session.get("prompt") is not None:
             prompt = str(session.get("prompt"))
+        # 输入 reset 重置会话
         if user_input == "reset" and session.get("prompt") is not None:
             session.pop('prompt')
             prompt = ""
             return '让我们重新开始'.format(prompt)
-        print("session_prompt:" + prompt)
+        # print("session_prompt:" + prompt)
         # chatGPT接收的上下文最大长度4097，如果提交的问题字串长度超过则报错
         # 因此这里需要对长度做处理，把每次提交的问题根据长度追加到上下文中
         # max_length 是prompt的最大长度，其决定了上下文内容
         max_length = 512
         len_input = len(user_input)
         len_pos = max_length - len_input
-        print("len_prompt:（" + str(len(prompt)) + ")")
-        print("len_input:（" + str(len_input) + ")")
+        # print("len_prompt:（" + str(len(prompt)) + ")")
+        # print("len_input:（" + str(len_input) + ")")
         if len(prompt) > max_length > len(user_input):
             prompt = prompt[-len_pos:] + user_input + "\n"
         elif max_length < len(user_input):
             prompt = user_input + "\n"
         else:
             prompt = prompt + user_input + "\n"
-        print("submit_prompt:（" + str(len(prompt)) + ")" + prompt)
+        logging.info("prompt:" + prompt)
+        #  print("submit_prompt:（" + str(len(prompt)) + ")" + prompt)
         #  engine：生成引擎的名称，默认为 text-davinci-002。
         #  prompt：生成请求的提示文本。
         #  temperature：生成结果的随机性。取值范围为 0.0 到 1.0，默认为 0.5。
@@ -75,7 +77,7 @@ def get_response():
         )
         response = response['choices'][0]['text']
         # 把问题和答案加入上下文中，便于AI根据上下文回答问题
-        print("response_prompt:" + response)
+        # print("response_prompt:" + response)
         prompt += response
         session["prompt"] = prompt
         logging.info("response:" + response)

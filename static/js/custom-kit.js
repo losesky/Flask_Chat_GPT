@@ -32,9 +32,9 @@ function formatClipboard(text) {
 function submitContent(event){
     event.preventDefault();
     var chat_content = document.getElementById('chat_content');
-    var user_input = $('#user-input').val();
-    if (!user_input.length) return;
-    user_input = formatResponse(user_input);
+    var user_input_original = $('#user-input').val();
+    if (!user_input_original.length) return;
+        user_input = formatResponse(user_input_original);
     // $('#chat_content').append('<div class="bubble-sent"><span class="copy-icon right">&nbsp;</span>' + user_input + '</div>');
     $('#chat_content').append('<div class="bubble-sent">' + user_input + '</div>');
     $('#user-input').replaceWith($('#user-input').clone(true));
@@ -45,7 +45,7 @@ function submitContent(event){
     $.ajax({
         type: 'POST',
         url: '/get_response',
-        data: {user_input: user_input},
+        data: {user_input: user_input_original},
         success: function (response) {
             // 将返回文本格式化成HTML元素
             var formattedResponse = formatResponse(response);
