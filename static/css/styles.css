@@ -1,26 +1,87 @@
-    body {
+html, body {
 		margin: 0;
 		padding: 0;
 		border: 0;
 		background-color: #EFECE6;
 		height: 100%;
+		width: 100%;
 		overflow: hidden;
 	}
 	.chat-container {
-		display: flex;
+	  display: flex;
 		flex-direction: column;
 		height: 100vh;
 		overflow: hidden;
+		width: 100%;
+		position: relative;
+	}
+	.toolbar {
+		position: absolute;
+		overflow-y: hidden;
+		left: 0;
+		top: 0;
+		width: 0;
+		padding: 0;
+		/* 注意，这里要留出50px的空间给.bottom */
+		bottom: 50px; 
+		background-color: #0f90bd;
+		transition: width 0.5s ease;
+		/* 这里设置为3 */
+		z-index: 3; 
+		
 	}
 	.chat-header {
 		background-color: lightgray;
 		height: 50px;
 	}
 	.chat-body {
-		flex: 1;
-		overflow: auto;
+	  position: absolute;
+	  display: flex;
+      flex-direction: column;
+	  overflow-y: auto;
+	  box-sizing: border-box;
+	  height: auto;
+	  top: 0;
+	  left: 0;
+	  right: 0;
+	  bottom: 50px;
+	  padding: 10px 0 10px 0;
+	  background-color: #f5f5f5;
+	  z-index: 0;
 	}
-	.chat-bottom {
+	:root {
+      --overlay-height: 50px;
+    }
+	/* 添加一个半透明的伪元素 */
+	.chat-body::before { 
+	  content: '';
+	  position: absolute;
+	  height: var(--overlay-height);
+	  overflow-y: hidden;
+	  flex: 1;
+	  top: 0;
+	  left: 0;
+	  right: 0;
+	  bottom: 0;
+	  padding: 20px;
+	  background-color: rgba(0, 0, 0, 0.5);
+	  opacity: 0; /* 初始时不显示 */
+	  transition: opacity 0.5s ease;
+	  z-index: 0; /* 这里设置为0 */
+	}
+	/* .toolbar被展开时将伪元素显示 */
+	.toolbar.show + .chat-body::before{ 
+	  opacity: 5;
+	  z-index: 99;
+	}
+
+	.bottom {
+		position: absolute;
+		bottom: 0;
+		left: 0;
+		width: 100%;
+		z-index: 5; /* 这里设置为5 */
+		cursor: pointer;
 		background-color: lightgray;
 		padding: 10px 0 10px 0;
 		display: flex;
@@ -71,13 +132,13 @@
 	  border-left: 0;
 	  margin-top: -10px;
 	  margin-left: -10px;
-	  cursor: pointer; /* 添加鼠标指针 */
+	  cursor: pointer;
 	}
 	.bubble-received {
 	  width: auto;
 	  padding: 8px 16px;
 	  clear: both;
-	  margin: 10px 0 10px 20px;
+	  margin: 10px auto 10px 20px;
 	  box-sizing: border-box;
 	  border-radius: 18px;
 	  background-color: #ffffff;
@@ -105,7 +166,7 @@
 	  border-right: 0;
 	  margin-top: -10px;
 	  margin-right: -10px;
-	  cursor: pointer; /* 添加鼠标指针 */
+	  cursor: pointer;
 	}
 	.send-btn {
 		width: 70px;
@@ -144,28 +205,7 @@
 		align-items: center;
 		justify-content: center;
 	}
-	.round_btn {
-		align-items: center;
-		justify-content: center;
-		width: 30px;
-		height: 30px;
-		border-radius: 50%;
-		background-color: inherit;
-		border: 1px solid black;
-		display: flex;
-		position: relative;
-		cursor: pointer;
-	}
-	.round_btn::before {
-		content: "";
-		position: absolute;
-		top: 12px;
-		left: 12px;
-		right: 12px;
-		bottom: 12px;
-		border-top: 1px solid black;
-		border-bottom: 1px solid black;
-	}
+
 	/* 当鼠标移动到bubble-sent或bubble-received的div上时，背景色和文字颜色会发生变化，同时也会高亮显示该div的内容
 	.bubble-sent:hover, .bubble-received:hover {
 	  background-color: #ffc107;

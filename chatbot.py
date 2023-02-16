@@ -1,9 +1,8 @@
 import logging
 
-from flask import Flask, render_template, request
+from flask import Flask, render_template, request, session
 import openai
 import configparser
-
 
 app = Flask(__name__, static_folder='static')
 # logging.basicConfig(filename='/var/log/chatbot.log', level=logging.INFO)
@@ -14,6 +13,8 @@ config = configparser.ConfigParser()
 config.read('config.cfg')
 openai.api_key = config.get('OpenAI', 'API_KEY')
 
+# flask的session需要用到的秘钥字符串
+app.config["SECRET_KEY"] = openai.api_key
 prompt = ""
 
 
@@ -32,14 +33,29 @@ def get_response():
     global prompt
     try:
         user_input = request.form['user_input']
-        logging.info("user_input:\n"+user_input)
-        prompt += user_input + "\n"
+        logging.info("user_input:" + user_input)
+        if session.get("prompt") is not None:
+            prompt = str(session.get("prompt"))
+        if user_input == "reset" and session.get("prompt") is not None:
+            session.pop('prompt')
+            prompt = ""
+            return '让我们重新开始'.format(prompt)
+        print("session_prompt:" + prompt)
         # chatGPT接收的上下文最大长度4097，如果提交的问题字串长度超过则报错
         # 因此这里需要对长度做处理，把每次提交的问题根据长度追加到上下文中
-        input_len = len(user_input) + 2
-        if len(prompt) > 2048:
-            prompt = prompt[-input_len:] + user_input + "\n"
-
+        # max_length 是prompt的最大长度，其决定了上下文内容
+        max_length = 512
+        len_input = len(user_input)
+        len_pos = max_length - len_input
+        print("len_prompt:（" + str(len(prompt)) + ")")
+        print("len_input:（" + str(len_input) + ")")
+        if len(prompt) > max_length > len(user_input):
+            prompt = prompt[-len_pos:] + user_input + "\n"
+        elif max_length < len(user_input):
+            prompt = user_input + "\n"
+        else:
+            prompt = prompt + user_input + "\n"
+        print("submit_prompt:（" + str(len(prompt)) + ")" + prompt)
         #  engine：生成引擎的名称，默认为 text-davinci-002。
         #  prompt：生成请求的提示文本。
         #  temperature：生成结果的随机性。取值范围为 0.0 到 1.0，默认为 0.5。
@@ -59,8 +75,10 @@ def get_response():
         )
         response = response['choices'][0]['text']
         # 把问题和答案加入上下文中，便于AI根据上下文回答问题
+        print("response_prompt:" + response)
         prompt += response
-        logging.info("response:"+response)
+        session["prompt"] = prompt
+        logging.info("response:" + response)
         return response
     except Exception as e:
         logging.error(e)

@@ -41,16 +41,31 @@
 		cursor: pointer;
 		left: 100%;
 	}
+	.round_btn {
+		align-items: center;
+		justify-content: center;
+		width: 28px;
+		height: 28px;
+		border-radius: 50%;
+		background: url("{{ url_for('static', filename='images/chatgpt.png') }}") no-repeat center center;
+		background-size: 32px 32px;
+		-webkit-background-size: 28px;
+		display: flex;
+		position: relative;
+		cursor: pointer;
+		box-shadow: 0 2px 4px rgba(0, 0, 0, 0.4);
+	}
 	</style>
 </head>
 <body>
 <div class="chat-container">
-	<!--<div class="chat-header">
-		<p align="center">智能AI小助手</p>
+	<div class="toolbar">
+		<!--<div class="chat-header">
+	<p align="center">智能AI小助手</p>
 	</div>-->
-	<div class="chat-body" id="chat_content">
 	</div>
-	<div class="chat-bottom">
+	<div class="chat-body" id="chat_content"></div>
+	<div class="bottom">
 		<div class="sel_icon">
 			<div class="round_btn" id="round_btn"></div>
 		</div>
@@ -61,9 +76,48 @@
 			<div class="send-btn" id="send-btn">发送</div>
 		</div>
 	</div>
-
 </div>
 <script>
+    // 在页面加载和chat-body高度发生变化时，调用updateOverlayHeight函数
+	window.addEventListener('load', updateOverlayHeight);
+	document.querySelector('.chat-body').addEventListener('scroll', updateOverlayHeight);
+
+    const toolbar = document.querySelector('.toolbar');
+    const roundBtn = document.querySelector('.round_btn');
+	let isLeftShown = false;
+	$(document).on('click', '.round_btn', function() {
+		isLeftShown = !isLeftShown;
+		toolbar.style.width = isLeftShown ? '80%' : '0';
+		if (isLeftShown) {
+			toolbar.classList.add('show');
+			roundBtn.style.background = "url(\"{{ url_for('static', filename='images/chatgpt_black.png') }}\") no-repeat center center";
+			roundBtn.style.webkitBackgroundSize = "32px";
+			$('textarea').prop('disabled', true);
+			$('.send-btn').css('background-color', "#969696");
+			//清除输入框中内容
+			$('#user-input').replaceWith($('#user-input').clone(true));
+			$('#user-input').val('');
+			$('#user-input').height(25);
+		} else {
+			toolbar.classList.remove('show');
+			roundBtn.style.background = "url(\"{{ url_for('static', filename='images/chatgpt.png') }}\") no-repeat center center";
+			roundBtn.style.webkitBackgroundSize = "32px";
+			$('textarea').prop('disabled', false);
+			$('.send-btn').css('background-color', "#4ba71e");
+		}
+	});
+
+	$(document).on('click', '.chat-body', function() {
+		isLeftShown = !isLeftShown;
+		if (!isLeftShown) {
+			toolbar.style.width = isLeftShown ? '80%' : '0';
+			toolbar.classList.remove('show');
+			$('textarea').prop('disabled', false);
+			$('.send-btn').css('background-color', "#4ba71e");
+			$('.round_btn').css('background-color', "inherit");
+		}
+	});
+
 	$('#send-btn').on('click', function(event) {
 		submitContent(event);
 	});
@@ -93,7 +147,7 @@
 		}
 		// 获取要复制的文本
 		const div = this.parentElement;
-		const text = formatClipboard(div.textContent);
+		const text = formatClipboard(div.innerHTML);
 		if (text) {
 			// 将文本内容复制到系统剪贴板中
 			if (navigator.clipboard && navigator.clipboard.writeText) {
@@ -116,7 +170,7 @@
 				$(this).attr('title', '已复制').tooltip('fixTitle').tooltip('show');
 				return new Promise((res, rej) => {
 					// 执行复制命令并移除文本框
-					document.execCommand('copy') ? res() : rej()
+					document.execCommand('copy', false, text) ? res() : rej()
 					textArea.remove()
 				})
 			}
