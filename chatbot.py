@@ -20,8 +20,8 @@ openai.api_key = config.get('OpenAI', 'API_KEY')
 prompt = ""
 
 DATABASE_INIT_FILE = os.path.join("./", "schema.sql")
-LOG_FILE = os.path.join("./", "chatbot.log")
-# logging.basicConfig(filename='/var/log/chatbot.log', level=logging.INFO)
+# LOG_FILE = os.path.join("./", "chatbot.log")
+logging.basicConfig(filename='/var/log/chatbot.log', level=logging.INFO)
 
 
 def connect_db():
@@ -59,7 +59,7 @@ def reset():
 @app.route('/')
 def index():
     # 第一次启动时初始化数据库
-    # init_db()
+    init_db()
     return render_template('index.html')
 
 
@@ -198,5 +198,5 @@ def get_response():
 
 if __name__ == '__main__':
     #  日志输出文件配置
-    logging.basicConfig(filename=LOG_FILE, level=logging.INFO)
+    # logging.basicConfig(filename=LOG_FILE, level=logging.INFO)
     app.run(debug=True)
