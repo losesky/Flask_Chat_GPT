@@ -1,0 +1,23 @@
+DROP TABLE IF EXISTS prompts;
+CREATE TABLE prompts (
+	id INTEGER PRIMARY KEY AUTOINCREMENT,
+	prompt_id INTEGER NOT NULL,
+	prompt TEXT,
+	update_time TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+);
+DROP TABLE IF EXISTS sessions;
+DROP TABLE IF EXISTS users;
+CREATE TABLE IF NOT EXISTS users (
+    id INTEGER PRIMARY KEY AUTOINCREMENT,
+    openid TEXT NOT NULL,
+    nickname TEXT NOT NULL,
+    sex INTEGER NOT NULL,
+    city TEXT NOT NULL,
+    province TEXT NOT NULL,
+    country TEXT NOT NULL,
+    headimgurl TEXT NOT NULL,
+    unionid TEXT NOT NULL,
+    access_token TEXT NOT NULL,
+    refresh_token TEXT NOT NULL,
+    expires_in INTEGER NOT NULL
+)
