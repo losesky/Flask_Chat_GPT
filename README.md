@@ -24,7 +24,7 @@ $ cd Flask_Chat_GPT
 3.在Ubuntu服务器上创建虚拟环境
 ```
 $ sudo python3 -m venv myenv
-$ sudo source myenv/bin/activate
+$ source myenv/bin/activate
 ```
 4.在虚拟环境中使用以下命令安装所需的python项目依赖包
 ```
